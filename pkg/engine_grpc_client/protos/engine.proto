@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package supportanalyticsengine;
+
+service Engine {
+  rpc AnalyseMessageLabels(Text) returns(Categories) {}
+
+  rpc AnalyseMessageTools(Text) returns(Categories) {}
+}
+
+message Text {
+  string text = 1;
+}
+
+message Category {
+  string category = 1;
+  float score = 2;
+}
+
+message Categories {
+  repeated Category categories = 1;
+}
+

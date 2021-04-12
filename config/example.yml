@@ -1,0 +1,46 @@
+front_url: http://localhost:3000
+elastic_url: http://elasticsearch:9200
+engine_url: analyser:50051
+analytics_url: http://localhost:8080
+
+# vault parameters
+vault_enabled: true
+vault_auth_method: approle
+vault_url: http://localhost:8200
+
+# dex parameters
+dex_connectors: [ldap]
+dex_admin_group: admin-team
+
+# ldap
+dex_ldap_usersearch_basedn: DC=enterprise,DC=loc
+dex_ldap_usersearch_filter: (objectClass=person)
+dex_ldap_usersearch_username: sAMAccountName
+dex_ldap_usersearch_idattr: sAMAccountName
+dex_ldap_usersearch_emailattr: mail
+dex_ldap_usersearch_nameattr: name
+
+dex_ldap_groupsearch_basedn: DC=leboncoin,DC=loc
+dex_ldap_groupsearch_filter: (objectClass=person)
+dex_ldap_groupsearch_username: sAMAccountName
+dex_ldap_groupsearch_emailattr: mail
+dex_ldap_groupsearch_nameattr: name
+
+# yamllint disable-line rule:line-length
+dex_ldap_username: VAULT::secrets/ldap:username
+# yamllint disable-line rule:line-length
+dex_ldap_password: VAULT::secrets/ldap:password
+dex_ldap_host: VAULT::secrets/ldap:host
+dex_secret: VAULT::secrets/subot/dex:secret
+dex_client_id: subot
+# yamllint disable-line rule:line-length
+dex_private_key: VAULT::secrets/subot/dex:private_key
+
+# slack parameters
+slack_id: VAULT::secrets/subot/slack:id
+slack_webhook: VAULT::secrets/subot/slack:webhook
+# yamllint disable-line rule:line-length
+slack_oauth_access_token: VAULT::secrets/subot/slack:oauth_access_token
+# yamllint disable-line rule:line-length
+slack_bot_user_oauth_access_token: VAULT::secrets/subot/slack:bot_user_oauth_access_token
+slack_bot_id: VAULT::secrets/subot/slack:bot_id

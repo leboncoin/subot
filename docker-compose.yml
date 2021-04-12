@@ -1,0 +1,47 @@
+version: '3'
+services:
+  analytics:
+    depends_on:
+      - elasticsearch
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/github.com/leboncoin/subot
+    networks:
+      - support-network
+    environment:
+      ENV: local
+      VAULT_ROLE_ID: $VAULT_ROLE_ID
+      VAULT_SECRET_ID: $VAULT_SECRET_ID
+    command: sh -c "make serve APP=analytics"
+  replier:
+    depends_on:
+      - elasticsearch
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8081:8080"
+    networks:
+      - support-network
+    volumes:
+      - .:/go/src/github.com/leboncoin/subot
+    environment:
+      ENV: local
+      VAULT_ROLE_ID: $VAULT_ROLE_ID
+      VAULT_SECRET_ID: $VAULT_SECRET_ID
+    command: sh -c "make serve APP=replier"
+  elasticsearch:
+    image: "elasticsearch:6.8.6"
+    networks:
+      - support-network
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+networks:
+  support-network:
+    driver: bridge
